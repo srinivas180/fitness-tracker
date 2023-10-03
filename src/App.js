@@ -22,6 +22,12 @@ function App() {
                 <NavLink to="/exercises">Exercises</NavLink>
                 <NavLink to="/food">Food</NavLink>
                 <NavLink to="Goals">Goals</NavLink>
+                <a href="https://github.com/srinivas180/fitness-tracker">
+                    Github Link
+                </a>
+                <a href="https://replit.com/@srinivas365/Assignment-17-Fitness-Tracker-Backend">
+                    Backend code
+                </a>
             </nav>
             <div>
                 <h1 style={{ marginTop: "0" }}>Fitness Tracker</h1>

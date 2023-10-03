@@ -27,9 +27,13 @@ export function GoalsList() {
                           <div style={{ display: "flex" }} key={goal._id}>
                               <li>
                                   Name: {goal.name}
+                                  {"  "}
                                   Description: {goal.description}
+                                  {"  "}
                                   Date: {goal.targetDate}
+                                  {"  "}
                                   Target Calories: {goal.targetCalories}
+                                  {"  "}
                                   Status: {goal.status}
                               </li>
                               <button
