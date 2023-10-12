@@ -1,6 +1,5 @@
-import { Dashboard } from "./Dashboard/Dashboard";
-import { Exercises } from "./Exercises/Exercises";
-import { Food } from "./Food/Food";
-import { Goals } from "./Goals/Goals";
+import { Inventory } from "./Inventory/Inventory";
+import { Sales } from "./Sales/Sales";
+import { Reports } from "./Reports/Reports";
 
-export { Dashboard, Exercises, Food, Goals };
+export { Inventory, Sales, Reports };
