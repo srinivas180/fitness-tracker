@@ -1,181 +1,121 @@
-export function getExercises() {
-    return async function (dispatch) {
-        try {
-            dispatch({ type: "LOADING" });
-            const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/exercises"
-            );
-
-            const data = await response.json();
-            dispatch({ type: "GET_EXERCISES", payload: data.exercises });
-        } catch (error) {
-            console.log("Error retrieving exercises.");
-        }
-    };
-}
-
-export function addExercise(exercise) {
+export const addItemToInventory = (item) => {
     return async function (dispatch) {
         try {
             const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/exercises",
+                "https://assignment-18-inventory-management-backend.srinivas365.repl.co/items",
                 {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
                         "Access-Control-Allow-Origin": "*",
                     },
-                    body: JSON.stringify(exercise),
+                    body: JSON.stringify(item),
                 }
             );
-            const data = await response.json();
-            dispatch({ type: "ADD_EXERCISE", payload: data.addedExercise });
+            const result = await response.json();
+            dispatch({ type: "items/add", payload: result.addedItem });
         } catch (error) {
-            console.log("error adding exercise.");
+            console.log("Error adding item to inventory.");
         }
     };
-}
+};
 
-export function removeExercise(exerciseId) {
+export const fetchItemsFromInventory = () => {
     return async function (dispatch) {
         try {
-            const response = await fetch(
-                `https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/exercises/${exerciseId}`,
-                {
-                    method: "DELETE",
-                }
-            );
-            const status = response.status;
-            if (status === 204) {
-                dispatch({
-                    type: "REMOVE_EXERCISE",
-                    payload: exerciseId,
-                });
-            }
-        } catch (error) {
-            console.log("error removing exercise.");
-        }
-    };
-}
+            dispatch({ type: "loading" });
 
-export function getFoods() {
-    return async function (dispatch) {
-        try {
-            dispatch({ type: "LOADING" });
             const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/food"
+                "https://assignment-18-inventory-management-backend.srinivas365.repl.co/items"
             );
 
-            const data = await response.json();
-            dispatch({ type: "GET_FOODS", payload: data.foods });
+            const result = await response.json();
+            dispatch({ type: "items/fetch", payload: result.items });
         } catch (error) {
-            console.log("Error retrieving food items.");
+            console.log("Error fetching inventory items.");
         }
     };
-}
+};
 
-export function addFood(food) {
+export const editItem = (itemId, updatedItemData) => {
     return async function (dispatch) {
         try {
             const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/food",
+                `https://assignment-18-inventory-management-backend.srinivas365.repl.co/items/${itemId}`,
                 {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
                         "Access-Control-Allow-Origin": "*",
                     },
-                    body: JSON.stringify(food),
+                    body: JSON.stringify(updatedItemData),
                 }
             );
-
-            const data = await response.json();
-            dispatch({ type: "ADD_FOOD", payload: data.addedFood });
+            const result = await response.json();
+            dispatch({
+                type: "items/edit",
+                payload: {
+                    updatedItem: result.updatedItem,
+                    itemId,
+                },
+            });
         } catch (error) {
-            console.log("Error adding food.");
+            console.log("Error updating item.");
         }
     };
-}
+};
 
-export function removeFood(foodId) {
+export const deleteItem = (itemId) => {
     return async function (dispatch) {
         try {
             const response = await fetch(
-                `https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/food/${foodId}`,
+                `https://assignment-18-inventory-management-backend.srinivas365.repl.co/items/${itemId}`,
                 {
                     method: "DELETE",
                 }
             );
-            const status = response.status;
-            if (status === 204) {
-                dispatch({
-                    type: "REMOVE_FOOD",
-                    payload: foodId,
-                });
-            }
+            const result = await response.json();
+            dispatch({ type: "items/delete", payload: result.deletedItem._id });
         } catch (error) {
-            console.log("error removing food.");
+            console.log("Error deleting item.");
         }
     };
-}
-
-export function getGoals() {
-    return async function (dispatch) {
-        try {
-            dispatch({ type: "LOADING" });
-            const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/goals"
-            );
-
-            const data = await response.json();
-            dispatch({ type: "GET_GOALS", payload: data.goals });
-        } catch (error) {
-            console.log("Error retrieving goals.");
-        }
-    };
-}
-
-export function addGoal(goal) {
+};
+export const addSaleTransaction = (saleTransactionData) => {
     return async function (dispatch) {
         try {
             const response = await fetch(
-                "https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/goals",
+                "https://assignment-18-inventory-management-backend.srinivas365.repl.co/sales",
                 {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
+                        "Allow-Access-Control-Origin": "*",
                     },
-                    body: JSON.stringify(goal),
+                    body: JSON.stringify(saleTransactionData),
                 }
+            );
+            const data = await response.json();
+            dispatch({ type: "sales/add", payload: data.addedSale });
+        } catch (error) {
+            console.log("Error adding sale transaction.");
+        }
+    };
+};
+
+export const fetchSaleTransactions = () => {
+    return async function (dispatch) {
+        try {
+            dispatch({ type: "loading" });
+
+            const response = await fetch(
+                "https://assignment-18-inventory-management-backend.srinivas365.repl.co/sales"
             );
 
             const data = await response.json();
-            dispatch({ type: "ADD_GOAL", payload: data.addedGoal });
+            dispatch({ type: "sales/fetch", payload: data.sales });
         } catch (error) {
-            console.log("Error adding goal.");
+            console.log("Error fetching sale transactions data.");
         }
     };
-}
-
-export function removeGoal(goalId) {
-    return async function (dispatch) {
-        try {
-            const response = await fetch(
-                `https://assignment-17-fitness-tracker-backend.srinivas365.repl.co/goals/${goalId}`,
-                {
-                    method: "DELETE",
-                }
-            );
-            const status = response.status;
-            if (status === 204) {
-                dispatch({
-                    type: "REMOVE_GOAL",
-                    payload: goalId,
-                });
-            }
-        } catch (error) {
-            console.log("error removing goal.");
-        }
-    };
-}
+};
