@@ -1,8 +1,8 @@
-import { createStore, applyMiddleware } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 
-import { inventoryReducer } from "./reducers/inventoryReducer";
+import { trackerReducer } from "./reducers/trackerReducer";
 
-const store = createStore(inventoryReducer, applyMiddleware(thunk));
+const store = createStore(trackerReducer, applyMiddleware(thunk));
 
 export default store;
